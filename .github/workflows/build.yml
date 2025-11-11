@@ -39,3 +39,10 @@ jobs:
 
       matrix:
         flags: ${{ needs.windows-matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Clone llama.cpp
+        run: git clone https://github.com/ggml-org/llama.cpp.git

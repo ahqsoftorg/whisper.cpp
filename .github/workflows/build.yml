@@ -54,5 +54,5 @@ jobs:
         shell: pwsh
         run: |
           cmake -B build -DLLAMA_CURL=OFF ${{ matrix.flags }}
-          ./activex.ps1
+          ../activex.ps1
         working-directory: llama.cpp

@@ -1,6 +1,6 @@
 const generateAllCombinations = require("./util.cjs");
 
-const avx = ["-D LLAMA_AVX=ON", "-D LLAMA_AVX2=ON", "-D LLAMA_AVX512=ON"];
+const avx = ["-D LLAMA_AVX=ON", "-D LLAMA_AVX2=ON"];
 
 const amx = [
   "-D GGML_AMX_INT8=ON",

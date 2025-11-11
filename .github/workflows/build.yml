@@ -1,0 +1,41 @@
+name: Build LLAMA.CPP
+
+on:
+  push:
+
+  schedule:
+    - cron: "0 */12 * * *"
+
+jobs:
+  windows-matrix:
+    outputs:
+      matrix: ${{ steps.matrices.outputs.result }}
+
+    name: Generate Windows Matrix
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate Matrices
+        uses: actions/github-script@v8
+        id: matrices
+        with:
+          script: |
+            const out = require("./win32.cjs");
+
+            return out();
+
+  # -D CMAKE_BUILD_TYPE=Release
+
+  windows:
+    needs: [windows-matrix]
+
+    name: Build for Windows (With AHQ ActiveX Superfast Compiler)
+
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: true
+
+      matrix:
+        flags: ${{ needs.windows-matrix.outputs.matrix }}

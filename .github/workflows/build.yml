@@ -41,7 +41,7 @@ jobs:
       fail-fast: true
 
       matrix:
-        flags: ${{ fromJson(needs.windows-matrix.outputs.matrix) }}
+        include: ${{ fromJson(needs.windows-matrix.outputs.matrix) }}
 
     steps:
       - name: Checkout
@@ -55,4 +55,21 @@ jobs:
         run: |
           cmake -B build -DLLAMA_CURL=OFF ${{ matrix.flags }}
           ../activex.ps1
+
+          Compress-Archive -Path ./build/Release/* -DestinationPath llama.zip
         working-directory: llama.cpp
+
+      - name: Upload
+        uses: actions/upload-artifact@v5
+        with:
+          path: |
+            ./llama.cpp/llama.zip
+          name: llama-cpp-windows-x64-${{ matrix.suffix }}
+
+      # - name: Upload Binaries
+      #   uses: AButler/upload-release-assets@v3.0
+      #   with:
+      #     files: |
+      #       ./llama.cpp/llama.zip
+      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
+      #     release-id: ${{ needs.create.outputs.release_id }}

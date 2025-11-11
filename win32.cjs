@@ -1,12 +1,20 @@
 const generateAllCombinations = require("./util.cjs");
 
-const avx = ["-D LLAMA_AVX=ON", "-D LLAMA_AVX2=ON", "-D LLAMA_AVX512=ON"];
+const avx = [
+  ["-avx", "-D LLAMA_AVX=ON"],
+  ["-avx2", "-D LLAMA_AVX2=ON"],
+  ["-avx512", "-D LLAMA_AVX512=ON"],
+];
 
 const amx = [
-  "-D GGML_AMX_INT8=ON",
-  "-D GGML_AMX_BF16=ON",
-  "-D GGML_AMX_TILE=ON",
-  "",
+  ["-int8", "-D GGML_AMX_INT8=ON"],
+  ["-int16", "-D GGML_AMX_BF16=ON"],
+  ["-amx-tile", "-D GGML_AMX_TILE=ON"],
+  ["-int8-int16", "-D GGML_AMX_INT8=ON -D GGML_AMX_BF16=ON"],
+  [
+    "-int8-int16-amx-tile",
+    "-D GGML_AMX_INT8=ON -D GGML_AMX_BF16=ON -D GGML_AMX_TILE=ON",
+  ],
 ];
 
 /**
@@ -14,11 +22,32 @@ const amx = [
  */
 const allCombinations = generateAllCombinations(avx, amx);
 
-allCombinations.push("");
-allCombinations.push(avx.join(" "));
+allCombinations.push([["-none", ""]]);
+allCombinations.push([
+  ["-univ", avx.map((x) => x[1]).join(" ")],
+  ["-famx", amx.map((x) => x[1]).join(" ")],
+]);
 
-console.log(allCombinations);
+// { flags: string, suffix: string }
+const out = [];
+
+allCombinations.forEach((comb) => {
+  let flags = [];
+  let suffix = "";
+
+  comb.forEach((data) => {
+    const [s, flag] = data;
+
+    suffix += s;
+    flags.push(flag);
+  });
+
+  out.push({
+    flags: flags.join(" "),
+    suffix,
+  });
+});
 
 module.exports = () => {
-  return allCombinations;
+  return out;
 };

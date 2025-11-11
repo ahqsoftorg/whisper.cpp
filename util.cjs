@@ -43,6 +43,6 @@ module.exports = function generateCombinations(...groups) {
   // Format the raw combinations (arrays of strings) into single space-separated strings
   return rawCombinations.map((combo) => {
     // Filter out any empty strings that might be passed in a group (e.g., the 'no flag' option)
-    return combo.filter((flag) => flag && flag.trim().length > 0).join(" ");
+    return combo.filter((flag) => flag);
   });
 };

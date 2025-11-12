@@ -1,10 +1,10 @@
 const generateAllCombinations = require("./util.cjs");
 
 const avx = [
-  ["-noavx", "-D LLAMA_AVX=OFF -D LLAMA_AVX2=OFF -D LLAMA_AVX512=OFF"],
-  ["-avx", "-D LLAMA_AVX=ON -D LLAMA_AVX2=OFF -D LLAMA_AVX512=OFF"],
-  ["-avx2", "-D LLAMA_AVX=OFF -D LLAMA_AVX2=ON -D LLAMA_AVX512=OFF"],
-  ["-avx512", "-D LLAMA_AVX=OFF -D LLAMA_AVX2=OFF -D LLAMA_AVX512=ON"],
+  ["-noavx", "-D GGML_AVX=OFF -D GGML_AVX2=OFF -D GGML_AVX512=OFF"],
+  ["-avx", "-D GGML_AVX=ON -D GGML_AVX2=OFF -D GGML_AVX512=OFF"],
+  ["-avx2", "-D GGML_AVX=OFF -D GGML_AVX2=ON -D GGML_AVX512=OFF"],
+  ["-avx512", "-D GGML_AVX=OFF -D GGML_AVX2=OFF -D GGML_AVX512=ON"],
 ];
 
 const amx = [

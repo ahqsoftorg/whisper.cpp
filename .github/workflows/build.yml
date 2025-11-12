@@ -53,7 +53,7 @@ jobs:
       - name: Build Ollama
         shell: pwsh
         run: |
-          cmake -B build -DLLAMA_CURL=OFF ${{ matrix.flags }}
+          cmake -B build -DLLAMA_CURL=OFF -D GGML_NATIVE=OFF ${{ matrix.flags }}
           ../activex.ps1
 
           Compress-Archive -Path ${{ github.workspace }}\llama.cpp\build\bin\Release\* -DestinationPath ${{ github.workspace }}\llama.zip

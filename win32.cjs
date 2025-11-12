@@ -3,8 +3,8 @@ const generateAllCombinations = require("./util.cjs");
 const avx = [
   ["-noavx", "-D LLAMA_AVX=OFF -D LLAMA_AVX2=OFF -D LLAMA_AVX512=OFF"],
   ["-avx", "-D LLAMA_AVX=ON -D LLAMA_AVX2=OFF -D LLAMA_AVX512=OFF"],
-  ["-avx2", "-D LLAMA_AVX=ON -D LLAMA_AVX2=ON -D LLAMA_AVX512=OFF"],
-  ["-avx512", "-D LLAMA_AVX=ON -D LLAMA_AVX2=OFF -D LLAMA_AVX512=ON"],
+  ["-avx2", "-D LLAMA_AVX=OFF -D LLAMA_AVX2=ON -D LLAMA_AVX512=OFF"],
+  ["-avx512", "-D LLAMA_AVX=OFF -D LLAMA_AVX2=OFF -D LLAMA_AVX512=ON"],
 ];
 
 const amx = [

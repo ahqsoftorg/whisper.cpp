@@ -8,9 +8,10 @@ const avx = [
 ];
 
 const amx = [
-  ["-int8", "-D GGML_AMX_INT8=ON"],
-  ["-int16", "-D GGML_AMX_BF16=ON"],
-  ["-amx-tile", "-D GGML_AMX_TILE=ON"],
+  ["-amx_int8", "-D GGML_AMX_INT8=ON"],
+  ["-amx_int16", "-D GGML_AMX_BF16=ON"],
+  ["-amx_tile", "-D GGML_AMX_TILE=ON"],
+  ["", ""],
 ];
 
 /**

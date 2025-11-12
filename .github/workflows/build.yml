@@ -28,8 +28,6 @@ jobs:
 
             return out();
 
-  # -D CMAKE_BUILD_TYPE=Release
-
   linux:
     needs: [matrix]
 
@@ -53,7 +51,7 @@ jobs:
       - name: Build Ollama
         shell: pwsh
         run: |
-          cmake -B build -DLLAMA_CURL=OFF -D GGML_NATIVE=OFF ${{ matrix.flags }}
+          cmake -B build -D CMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DLLAMA_CURL=OFF -D GGML_NATIVE=OFF ${{ matrix.flags }}
           ../activex.ps1
 
           Compress-Archive -Path ${{ github.workspace }}/llama.cpp/build/bin/* -DestinationPath ${{ github.workspace }}\llama.zip
@@ -97,7 +95,7 @@ jobs:
       - name: Build Ollama
         shell: pwsh
         run: |
-          cmake -B build -DLLAMA_CURL=OFF -D GGML_NATIVE=OFF ${{ matrix.flags }}
+          cmake -B build -D CMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DLLAMA_CURL=OFF -D GGML_NATIVE=OFF ${{ matrix.flags }}
           ../activex.ps1
 
           Compress-Archive -Path ${{ github.workspace }}\llama.cpp\build\bin\Release\* -DestinationPath ${{ github.workspace }}\llama.zip

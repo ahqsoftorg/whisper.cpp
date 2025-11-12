@@ -19,12 +19,6 @@ const amx = [
  */
 const allCombinations = generateAllCombinations(avx, amx);
 
-allCombinations.push([["-none", ""]]);
-allCombinations.push([
-  ["-univ", avx.map((x) => x[1]).join(" ")],
-  ["-famx", amx.map((x) => x[1]).join(" ")],
-]);
-
 // { flags: string, suffix: string }
 const out = [];
 

@@ -127,7 +127,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Get Tag
-        uses: actions/gh-script@v8
+        uses: actions/github-script@v8
         id: tag
         with:
           result-encoding: string

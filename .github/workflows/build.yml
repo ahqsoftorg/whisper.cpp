@@ -30,18 +30,17 @@ jobs:
 
   # -D CMAKE_BUILD_TYPE=Release
 
-  windows:
+  linux:
     needs: [matrix]
 
-    name: Build
+    name: Build for Linux
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: true
 
       matrix:
-        os: [windows-latest, linux-latest]
         include: ${{ fromJson(needs.matrix.outputs.matrix) }}
 
     steps:
@@ -65,7 +64,51 @@ jobs:
         with:
           path: |
             ./llama.zip
-          name: llama-cpp-${{ matrix.os }}-x64-${{ matrix.suffix }}
+          name: llama-cpp-linux-x64-${{ matrix.suffix }}
+
+      # - name: Upload Binaries
+      #   uses: AButler/upload-release-assets@v3.0
+      #   with:
+      #     files: |
+      #       ./llama.cpp/llama.zip
+      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
+      #     release-id: ${{ needs.create.outputs.release_id }}
+
+  windows:
+    needs: [matrix]
+
+    name: Build for Windows
+
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: true
+
+      matrix:
+        include: ${{ fromJson(needs.matrix.outputs.matrix) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Clone llama.cpp
+        run: git clone https://github.com/ggml-org/llama.cpp.git
+
+      - name: Build Ollama
+        shell: pwsh
+        run: |
+          cmake -B build -DLLAMA_CURL=OFF -D GGML_NATIVE=OFF ${{ matrix.flags }}
+          ../activex.ps1
+
+          Compress-Archive -Path ${{ github.workspace }}\llama.cpp\build\bin\Release\* -DestinationPath ${{ github.workspace }}\llama.zip
+        working-directory: llama.cpp
+
+      - name: Upload
+        uses: actions/upload-artifact@v5
+        with:
+          path: |
+            ./llama.zip
+          name: llama-cpp-windows-x64-${{ matrix.suffix }}
 
       # - name: Upload Binaries
       #   uses: AButler/upload-release-assets@v3.0

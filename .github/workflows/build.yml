@@ -56,7 +56,7 @@ jobs:
           cmake -B build -DLLAMA_CURL=OFF -D GGML_NATIVE=OFF ${{ matrix.flags }}
           ../activex.ps1
 
-          Compress-Archive -Path ${{ github.workspace }}\llama.cpp\build\bin\Release\* -DestinationPath ${{ github.workspace }}\llama.zip
+          Compress-Archive -Path ${{ github.workspace }}/llama.cpp/build/bin/Release/* -DestinationPath ${{ github.workspace }}\llama.zip
         working-directory: llama.cpp
 
       - name: Upload

@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           path: |
-            ./llama.zip
+            ./${{ github.workspace }}\llama-cpp-linux-x64${{ matrix.suffix }}.zip
           name: llama-cpp-linux-x64-${{ matrix.suffix }}
 
       # - name: Upload Binaries

@@ -12,6 +12,6 @@ Windows v1.0.0
 "©️ AHQ ActiveX is compiling your codebase..."
 "ETA: 6 mins 32secs"
 
-cmake --build build --config Release -j 16 > "build.log"
+cmake --build build --config Release -j 16
 
 "Done. Exiting..."

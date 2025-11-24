@@ -58,7 +58,7 @@ jobs:
           cache: "true"
 
       - name: Install CMake
-        if: ${{ matrix.runner == 'windows-11-arm' }}
+        if: ${{ runner.os == 'Windows' }}
         run: |
           $progressPreference = 'silentlyContinue'
           Write-Host "Installing WinGet PowerShell module from PSGallery..."

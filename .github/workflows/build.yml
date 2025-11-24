@@ -57,9 +57,6 @@ jobs:
           components: "Vulkan-Headers,Vulkan-Loader"
           cache: "true"
 
-      - name: Install CMake
-        uses: ssrobins/install-cmake@v1
-
       - name: Build Whisper
         shell: pwsh
         run: |

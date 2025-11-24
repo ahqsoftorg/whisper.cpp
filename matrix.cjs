@@ -103,6 +103,15 @@ const macosMatrix = [
     flags:
       '-DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"',
   },
+  {
+    runner: "macos-latest",
+    os: "ios",
+    name: "iOS",
+    vulkan: false,
+    suffix: "",
+    flags:
+      "-DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DCMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM=ggml -DCMAKE_SYSTEM_NAME=iOS",
+  },
 ];
 
 const outputs = [...winMatrix, ...linuxMatrix, ...macosMatrix];

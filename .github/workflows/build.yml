@@ -59,6 +59,8 @@ jobs:
 
           Compress-Archive -Path ${{ github.workspace }}/whisper.cpp/build/bin/* -DestinationPath ${{ github.workspace }}\whisper-cpp-${{ matrix.os }}${{ matrix.suffix }}.zip
         working-directory: whisper.cpp
+        env:
+          OS: ${{ matrix.os }}
 
       - name: Upload
         uses: actions/upload-artifact@v5

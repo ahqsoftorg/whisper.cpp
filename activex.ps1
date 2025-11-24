@@ -12,6 +12,11 @@ Windows v1.0.0
 "©️ AHQ ActiveX is compiling your codebase..."
 "ETA: 6 mins 32secs"
 
-cmake --build build --config Release -j 16
+if ($env:OS -eq "ios") {
+  cmake --build build --config Release -j 16 -- CODE_SIGNING_ALLOWED=NO
+}
+else {
+  cmake --build build --config Release -j 16
+}
 
 "Done. Exiting..."

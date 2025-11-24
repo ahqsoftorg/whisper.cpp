@@ -30,6 +30,7 @@ const winMatrix = generateAllCombinations(winArch, modes, vulkan)
       ...prelude,
       suffix: "",
       flags: "",
+      vulkan: false,
     };
 
     combos.forEach((combo) => {
@@ -45,6 +46,10 @@ const winMatrix = generateAllCombinations(winArch, modes, vulkan)
 
       if (suffix.length != 0) {
         out.suffix += suffix;
+
+        if (suffix == "-vulkan") {
+          out.vulkan = true;
+        }
       }
     });
 
@@ -62,6 +67,7 @@ const linuxMatrix = generateAllCombinations(linuxArch, modes, vulkan)
 
     const out = {
       ...prelude,
+      vulkan: false,
       suffix: "",
       flags: "",
     };
@@ -79,6 +85,10 @@ const linuxMatrix = generateAllCombinations(linuxArch, modes, vulkan)
 
       if (suffix.length != 0) {
         out.suffix += suffix;
+
+        if (suffix == "-vulkan") {
+          out.vulkan = true;
+        }
       }
     });
 
@@ -95,6 +105,7 @@ const macosMatrix = [
     runner: "macos-latest",
     os: "macos-arm64",
     name: "Macos Arm64 Static",
+    vulkan: false,
     suffix: "-static",
     flags: " -DBUILD_SHARED_LIBS=OFF",
   },
@@ -102,6 +113,7 @@ const macosMatrix = [
     runner: "macos-15-intel",
     os: "macos-x64",
     name: "Macos X64 Static",
+    vulkan: false,
     suffix: "-static",
     flags: " -DBUILD_SHARED_LIBS=OFF",
   },

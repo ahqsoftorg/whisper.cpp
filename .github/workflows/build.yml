@@ -57,6 +57,11 @@ jobs:
           components: "Vulkan-Headers,Vulkan-Loader"
           cache: "true"
 
+      - name: Install CMake
+        if: ${{ matrix.runner == 'windows-11-arm' }}
+        run: |
+          winget install --id Kitware.CMake -e --source winget
+
       - name: Build Whisper
         shell: pwsh
         run: |

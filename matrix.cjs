@@ -19,7 +19,7 @@ const winArch = [
     runner: "windows-11-arm",
     os: "windows-arm64",
     name: "Windows Arm64",
-    flags: "-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++",
+    flags: "-G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++",
   },
 ];
 
@@ -96,19 +96,12 @@ const linuxMatrix = generateAllCombinations(linuxArch, vulkan).map((data) => {
 const macosMatrix = [
   {
     runner: "macos-latest",
-    os: "macos-arm64",
-    name: "Macos Arm64",
+    os: "macos-univ",
+    name: "Macos Universal",
     vulkan: false,
     suffix: "",
-    flags: "",
-  },
-  {
-    runner: "macos-15-intel",
-    os: "macos-x64",
-    name: "Macos X64",
-    vulkan: false,
-    suffix: "",
-    flags: "",
+    flags:
+      '-DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"',
   },
 ];
 

@@ -25,7 +25,7 @@ jobs:
         id: matrices
         with:
           script: |
-            const out = require("./win32.cjs");
+            const out = require("./matrix.cjs");
 
             return out();
 

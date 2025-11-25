@@ -54,10 +54,10 @@ jobs:
       - name: Build Whisper
         shell: pwsh
         run: |
-          cmake -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -D CMAKE_BUILD_TYPE=Release ${{ matrix.flags }}
+          cmake -DCMAKE_INSTALL_PREFIX="${{github.workspace}}/build" -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -D CMAKE_BUILD_TYPE=Release ${{ matrix.flags }}
           ../activex.ps1
 
-          Compress-Archive -Path ${{ github.workspace }}/whisper.cpp/build/* -DestinationPath ${{ github.workspace }}\whisper-cpp-${{ matrix.os }}${{ matrix.suffix }}.zip
+          Compress-Archive -Path ${{ github.workspace }}/build/* -DestinationPath ${{ github.workspace }}\whisper-cpp-${{ matrix.os }}${{ matrix.suffix }}.zip
         working-directory: whisper.cpp
         env:
           OS: ${{ matrix.os }}

@@ -19,4 +19,6 @@ else {
   cmake --build build --config Release -j 16
 }
 
+cmake --install build --config Release
+
 "Done. Exiting..."

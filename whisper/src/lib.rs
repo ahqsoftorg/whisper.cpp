@@ -1,14 +1,8 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+#[allow(
+  dead_code,
+  unsafe_op_in_unsafe_fn,
+  non_camel_case_types,
+  non_upper_case_globals,
+  non_snake_case
+)]
+pub mod bind;

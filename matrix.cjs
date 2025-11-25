@@ -114,7 +114,23 @@ const macosMatrix = [
   },
 ];
 
-const outputs = [...winMatrix, ...linuxMatrix, ...macosMatrix];
+const androidMatrix = ["arm64-v8a", "armeabi-v7a", "x86_64", "x86"].map(
+  (arch) => ({
+    runner: "ubuntu-latest",
+    os: `android-${arch}`,
+    name: `Android ${arch}`,
+    vulkan: false,
+    suffix: ``,
+    flags: `-B build/${arch} -DCMAKE_TOOLCHAIN_FILE=${process.env.NDK_HOME}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
+  })
+);
+
+const outputs = [
+  ...winMatrix,
+  ...linuxMatrix,
+  ...macosMatrix,
+  ...androidMatrix,
+];
 
 console.log(outputs);
 console.log(outputs.length);

@@ -13,13 +13,14 @@ const winArch = [
     runner: "windows-latest",
     os: "windows-x64",
     name: "Windows X64",
-    flags: "",
+    flags: "-B build",
   },
   {
     runner: "windows-11-arm",
     os: "windows-arm64",
     name: "Windows Arm64",
-    flags: "-G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++",
+    flags:
+      "-B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++",
   },
 ];
 
@@ -67,7 +68,7 @@ const linuxMatrix = generateAllCombinations(linuxArch, vulkan).map((data) => {
     ...prelude,
     vulkan: false,
     suffix: "",
-    flags: "",
+    flags: "-B build",
   };
 
   combos.forEach((combo) => {
@@ -101,7 +102,7 @@ const macosMatrix = [
     vulkan: false,
     suffix: "",
     flags:
-      '-DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"',
+      '-B build -DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"',
   },
   {
     runner: "macos-latest",
@@ -110,7 +111,7 @@ const macosMatrix = [
     vulkan: false,
     suffix: "",
     flags:
-      "-DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DCMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM=ggml -DCMAKE_SYSTEM_NAME=iOS",
+      "-B build -DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DCMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM=ggml -DCMAKE_SYSTEM_NAME=iOS",
   },
 ];
 
@@ -121,7 +122,7 @@ const androidMatrix = ["arm64-v8a", "armeabi-v7a", "x86_64", "x86"].map(
     name: `Android ${arch}`,
     vulkan: false,
     suffix: ``,
-    flags: `-B build/${arch} -DCMAKE_TOOLCHAIN_FILE=${process.env.ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
+    flags: `-B build/${arch} -DCMAKE_TOOLCHAIN_FILE="${process.env.ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake" -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
   })
 );
 

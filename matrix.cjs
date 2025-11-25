@@ -121,7 +121,7 @@ const androidMatrix = ["arm64-v8a", "armeabi-v7a", "x86_64", "x86"].map(
     name: `Android ${arch}`,
     vulkan: false,
     suffix: ``,
-    flags: `-B build/${arch} -DCMAKE_TOOLCHAIN_FILE=${process.env.ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
+    flags: `-B build/${arch} -DCMAKE_TOOLCHAIN_FILE=${process.env.ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
   })
 );
 

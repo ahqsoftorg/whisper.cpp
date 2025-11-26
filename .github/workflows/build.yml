@@ -153,8 +153,7 @@ jobs:
 
             gh release upload "$TAG" "$ASSET" \
               --repo "$GITHUB_REPOSITORY" \
-              --clobber \
-              --name "$ASSET"
+              --clobber
 
             rm "$ASSET"
           done

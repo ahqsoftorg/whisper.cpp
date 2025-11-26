@@ -76,9 +76,14 @@ jobs:
     name: Create release
     runs-on: ubuntu-latest
 
+    permissions: write-all
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
 
       - name: Get Tag
         uses: actions/github-script@v8
@@ -93,10 +98,25 @@ jobs:
         with:
           merge-multiple: true
 
-      - name: Models
+      - name: Release
+        id: data
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.result }}
+          draft: true
+          body: |
+            # Binaries
+          files: |
+            *.zip
+
+      - name: Models + Release
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.tag.outputs.result }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          curl https://raw.githubusercontent.com/ggml-org/whisper.cpp/refs/heads/master/models/download-ggml-model.sh > script.sh
-          chmod +x script.sh
+          curl https://raw.githubusercontent.com/ggml-org/whisper.cpp/refs/heads/master/models/download-ggml-model.sh > downloadmodel.sh
+          chmod +x downloadmodel.sh
 
           models="tiny
           tiny.en
@@ -110,7 +130,6 @@ jobs:
           base-q8_0
           small
           small.en
-          small.en-tdrz
           small-q5_1
           small.en-q5_1
           small-q8_0
@@ -130,15 +149,14 @@ jobs:
           large-v3-turbo-q8_0"
 
           for model in $models; do
-            ./script.sh $model
+            ASSET="$model.bin"
+
+            gh release upload "$TAG" "$ASSET" \
+              --repo "$GITHUB_REPOSITORY" \
+              --clobber \
+              --name "$ASSET"
+
+            rm "$ASSET"
           done
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.tag.outputs.result }}
-          body: |
-            # Binaries
-          files: |
-            *.zip
-            models/*
+          gh release edit "$TAG" --draft=false

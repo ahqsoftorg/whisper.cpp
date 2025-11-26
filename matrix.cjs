@@ -9,9 +9,21 @@ const vulkan = [
 ];
 
 const intelCpuFlags = [
-  [" -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_AVX512=OFF", " Baseline", ""],
-  [" -DGGML_AVX=ON -DGGML_AVX2=OFF -DGGML_AVX512=OFF", " AVX", "-avx"],
-  [" -DGGML_AVX=OFF -DGGML_AVX2=ON -DGGML_AVX512=OFF", " AVX2", "-avx2"],
+  [
+    " -D GGML_NATIVE=OFF -D GGML_AVX=OFF -D GGML_AVX2=OFF -D GGML_AVX512=OFF",
+    " Baseline",
+    "",
+  ],
+  [
+    " -D GGML_NATIVE=OFF -D GGML_AVX=ON -D GGML_AVX2=OFF -D GGML_AVX512=OFF",
+    " AVX",
+    "-avx",
+  ],
+  [
+    " -D GGML_NATIVE=OFF -D GGML_AVX=OFF -D GGML_AVX2=ON -D GGML_AVX512=OFF",
+    " AVX2",
+    "-avx2",
+  ],
 ];
 
 const roots = [
@@ -19,7 +31,7 @@ const roots = [
     runner: "ubuntu-22.04",
     os: "linux-x64",
     name: "Linux X64",
-    flags: "-B build",
+    flags: "",
     vulkan: false,
     suffix: "",
   },
@@ -27,7 +39,7 @@ const roots = [
     runner: "windows-latest",
     os: "windows-x64",
     name: "Windows X64",
-    flags: "-B build",
+    flags: "",
     vulkan: false,
     suffix: "",
   },
@@ -38,8 +50,7 @@ const winArch = [
     runner: "windows-11-arm",
     os: "windows-arm64",
     name: "Windows Arm64",
-    flags:
-      "-B build -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++",
+    flags: " -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++",
   },
 ];
 
@@ -114,7 +125,7 @@ const linuxMatrix = generateAllCombinations(linuxArch, vulkan).map((data) => {
     ...prelude,
     vulkan: false,
     suffix: "",
-    flags: "-B build",
+    flags: "",
   };
 
   combos.forEach((combo) => {
@@ -148,7 +159,7 @@ const macosMatrix = [
     vulkan: false,
     suffix: "",
     flags:
-      '-B build -DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"',
+      ' -DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"',
   },
   {
     runner: "macos-latest",
@@ -157,7 +168,7 @@ const macosMatrix = [
     vulkan: false,
     suffix: "",
     flags:
-      "-B build -DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DCMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM=ggml -DCMAKE_SYSTEM_NAME=iOS",
+      " -DGGML_METAL_USE_BF16=ON -DGGML_METAL_EMBED_LIBRARY=ON -DWHISPER_BUILD_EXAMPLES=OFF -DWHISPER_BUILD_TESTS=OFF -DWHISPER_BUILD_SERVER=OFF -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DCMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM=ggml -DCMAKE_SYSTEM_NAME=iOS",
   },
 ];
 
@@ -168,7 +179,7 @@ const androidMatrix = ["arm64-v8a", "armeabi-v7a", "x86_64", "x86"].map(
     name: `Android ${arch}`,
     vulkan: false,
     suffix: ``,
-    flags: `-B build -DCMAKE_TOOLCHAIN_FILE="${process.env.ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake" -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
+    flags: ` -DCMAKE_TOOLCHAIN_FILE="${process.env.ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake" -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
   })
 );
 

@@ -8,13 +8,32 @@ const vulkan = [
   // [" -DGGML_VULKAN=1", " Vulkan", "-vulkan"],
 ];
 
-const winArch = [
+const intelCpuFlags = [
+  ["-D GGML_AVX=OFF -D GGML_AVX2=OFF -D GGML_AVX512=OFF", " Baseline", ""],
+  ["-D GGML_AVX=ON -D GGML_AVX2=OFF -D GGML_AVX512=OFF", " AVX", "-avx"],
+  ["-D GGML_AVX=OFF -D GGML_AVX2=ON -D GGML_AVX512=OFF", " AVX2", "-avx2"],
+];
+
+const roots = [
+  {
+    runner: "ubuntu-22.04",
+    os: "linux-x64",
+    name: "Linux X64",
+    flags: "-B build",
+    vulkan: false,
+    suffix: "",
+  },
   {
     runner: "windows-latest",
     os: "windows-x64",
     name: "Windows X64",
     flags: "-B build",
+    vulkan: false,
+    suffix: "",
   },
+];
+
+const winArch = [
   {
     runner: "windows-11-arm",
     os: "windows-arm64",
@@ -25,11 +44,38 @@ const winArch = [
 ];
 
 const linuxArch = [
-  { runner: "ubuntu-22.04", os: "linux-x64", name: "Linux X64" },
   { runner: "ubuntu-22.04-arm", os: "linux-arm64", name: "Linux Arm64" },
 ];
 
-const winMatrix = generateAllCombinations(winArch, vulkan).map((data) => {
+const X64Matrix = generateAllCombinations(roots, intelCpuFlags).map((data) => {
+  const [outRef, ...combos] = data;
+
+  const out = { ...outRef };
+
+  combos.forEach((combo) => {
+    const [flag, name, suffix] = combo;
+
+    if (name.length != 0) {
+      out.name += name;
+    }
+
+    if (flag.length != 0) {
+      out.flags += flag;
+    }
+
+    if (suffix.length != 0) {
+      out.suffix += suffix;
+
+      if (suffix == "-vulkan") {
+        out.vulkan = true;
+      }
+    }
+  });
+
+  return out;
+});
+
+const winArmMatrix = generateAllCombinations(winArch, vulkan).map((data) => {
   const [prelude, ...combos] = data;
 
   const out = {
@@ -127,7 +173,8 @@ const androidMatrix = ["arm64-v8a", "armeabi-v7a", "x86_64", "x86"].map(
 );
 
 const outputs = [
-  ...winMatrix,
+  ...X64Matrix,
+  ...winArmMatrix,
   ...linuxMatrix,
   ...macosMatrix,
   ...androidMatrix,

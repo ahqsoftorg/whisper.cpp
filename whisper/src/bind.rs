@@ -5716,7 +5716,7 @@ pub struct WhisperCppRaw {
 impl WhisperCppRaw {
   pub unsafe fn new<P>(path: P) -> Result<Self, ::libloading::Error>
   where
-    P: AsRef<::std::ffi::OsStr> + ::libloading::AsFilename,
+    P: ::libloading::AsFilename,
   {
     let library = ::libloading::Library::new(path)?;
     Self::from_library(library)

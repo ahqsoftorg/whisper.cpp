@@ -9,9 +9,9 @@ const vulkan = [
 ];
 
 const intelCpuFlags = [
-  [" -D GGML_AVX=OFF -D GGML_AVX2=OFF -D GGML_AVX512=OFF", " Baseline", ""],
-  [" -D GGML_AVX=ON -D GGML_AVX2=OFF -D GGML_AVX512=OFF", " AVX", "-avx"],
-  [" -D GGML_AVX=OFF -D GGML_AVX2=ON -D GGML_AVX512=OFF", " AVX2", "-avx2"],
+  [" -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_AVX512=OFF", " Baseline", ""],
+  [" -DGGML_AVX=ON -DGGML_AVX2=OFF -DGGML_AVX512=OFF", " AVX", "-avx"],
+  [" -DGGML_AVX=OFF -DGGML_AVX2=ON -DGGML_AVX512=OFF", " AVX2", "-avx2"],
 ];
 
 const roots = [

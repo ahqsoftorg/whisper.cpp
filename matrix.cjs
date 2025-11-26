@@ -24,6 +24,11 @@ const intelCpuFlags = [
     " AVX2",
     "-avx2",
   ],
+  [
+    " -D GGML_NATIVE=OFF -D GGML_AVX=OFF -D GGML_AVX2=OFF -D GGML_AVX512=ON",
+    " AVX512",
+    "-avx512",
+  ],
 ];
 
 const roots = [

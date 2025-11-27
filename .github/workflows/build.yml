@@ -58,7 +58,7 @@ jobs:
 
           ../activex.ps1
 
-          Compress-Archive -Path ${{ github.workspace }}/build/lib/* -DestinationPath ${{ github.workspace }}\whisper-cpp-${{ matrix.os }}${{ matrix.suffix }}.zip
+          Compress-Archive -Path ${{ github.workspace }}/build/* -DestinationPath ${{ github.workspace }}\whisper-cpp-${{ matrix.os }}${{ matrix.suffix }}.zip
         working-directory: whisper.cpp
         env:
           OS: ${{ matrix.os }}

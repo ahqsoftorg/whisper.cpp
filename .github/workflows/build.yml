@@ -151,6 +151,8 @@ jobs:
           for model in $models; do
             ASSET="$model.bin"
 
+            ./downloadmodel.sh "$model"
+
             gh release upload "$TAG" "$ASSET" \
               --repo "$GITHUB_REPOSITORY" \
               --clobber \

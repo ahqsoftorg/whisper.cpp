@@ -149,7 +149,7 @@ jobs:
           large-v3-turbo-q8_0"
 
           for model in $models; do
-            ASSET="$model.bin"
+            ASSET="ggml-$model.bin"
 
             ./downloadmodel.sh "$model"
 

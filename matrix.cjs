@@ -177,7 +177,20 @@ const macosMatrix = [
   },
 ];
 
-const androidMatrix = ["arm64-v8a", "armeabi-v7a", "x86_64", "x86"].map(
+const neon ="-mfpu=neon-vfpv4 -mfloat-abi=softfp";
+
+const androidArmMatrix = ["arm64-v8a", "armeabi-v7a"].map(
+  (arch) => ({
+    runner: "ubuntu-latest",
+    os: `android-${arch}`,
+    name: `Android ${arch}`,
+    vulkan: false,
+    suffix: ``,
+    flags: ` -DCMAKE_TOOLCHAIN_FILE="${process.env.ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake" -DCMAKE_CXX_FLAGS="${neon}" -DCMAKE_C_FLAGS="${neon}" -DANDROID_ARM_NEON=ON -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
+  })
+);
+
+const androidXMatrix = ["x86_64", "x86"].map(
   (arch) => ({
     runner: "ubuntu-latest",
     os: `android-${arch}`,
@@ -186,14 +199,15 @@ const androidMatrix = ["arm64-v8a", "armeabi-v7a", "x86_64", "x86"].map(
     suffix: ``,
     flags: ` -DCMAKE_TOOLCHAIN_FILE="${process.env.ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake" -DANDROID_ARM_NEON=ON -DANDROID_ABI=${arch} -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release`,
   })
-);
+)
 
 const outputs = [
   ...X64Matrix,
   ...winArmMatrix,
   ...linuxMatrix,
   ...macosMatrix,
-  ...androidMatrix,
+  ...androidArmMatrix,
+  ...androidXMatrix
 ];
 
 console.log(outputs);
